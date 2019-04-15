@@ -17,30 +17,14 @@ namespace StageControl
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        public class Stages
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            try
-            {
-                // build device list
-                DeviceManagerCLI.BuildDeviceList();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Exception raised by BuildDeviceList {0}", ex.ToString());
-                return;
-            }
 
             String KDC101_left = "27253437";
             String KDC101_right = "27253406";
             String KBD101_left = "28250835";
             String KBD101_right = "28250713";
+
 
             KCubeDCServo device_A = KCubeDCServo.CreateKCubeDCServo(KDC101_left);
 
@@ -50,7 +34,7 @@ namespace StageControl
                 MessageBox.Show("Device A is not a KDC101");
             }
 
-            KCubeDCServo device_B = KCubeDCServo.CreateKCubeDCServo(KDC101_right);
+        KCubeDCServo device_B = KCubeDCServo.CreateKCubeDCServo(KDC101_right);
 
             if (device_B == null)
             {
@@ -80,14 +64,40 @@ namespace StageControl
                 // Connection failed
                 MessageBox.Show("Failed to open device B");
             }
+   
 
-            Application.Run(new Form1());
-
-            //decimal value = device_A.GetMoveAbsolutePosition();
-
-            //device_A.SetMoveAbsolutePosition(40);
-
-           
         }
+
+    }
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+static void Main()
+{
+
+    try
+    {
+        // build device list
+        DeviceManagerCLI.BuildDeviceList();
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Exception raised by BuildDeviceList {0}", ex.ToString());
+        return;
+    }
+
+
+    Application.EnableVisualStyles();
+    Application.SetCompatibleTextRenderingDefault(false);
+
+    Application.Run(new Form1());
+
+    //decimal value = device_A.GetMoveAbsolutePosition();
+
+    //guitdevice_A.SetMoveAbsolutePosition(40);
+
+
+}
     }
 }

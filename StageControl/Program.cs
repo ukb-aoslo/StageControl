@@ -71,6 +71,11 @@ namespace StageControl
             }
 
         }
+
+
+        public static Stages stages = new Stages();
+        stages.init();
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -88,9 +93,6 @@ namespace StageControl
                 MessageBox.Show("Exception raised by BuildDeviceList {0}", ex.ToString());
                 return;
             }
-
-            Stages stages = new Stages();
-            stages.init();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

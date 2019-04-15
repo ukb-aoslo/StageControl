@@ -25,10 +25,64 @@ namespace StageControl
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-            String serial = "27253406";
-            KCubeDCServo device = KCubeDCServo.CreateKCubeDCServo(serial);
 
+            try
+            {
+                // build device list
+                DeviceManagerCLI.BuildDeviceList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception raised by BuildDeviceList {0}", ex.ToString());
+                return;
+            }
+
+            String KDC101_left = "27253437";
+            String KDC101_right = "27253406";
+            String KBD101_left = "28250835";
+            String KBD101_right = "28250713";
+
+            KCubeDCServo device_A = KCubeDCServo.CreateKCubeDCServo(KDC101_left);
+
+            if (device_A == null)
+
+            {
+                MessageBox.Show("Device A is not a KDC101");
+            }
+
+            KCubeDCServo device_B = KCubeDCServo.CreateKCubeDCServo(KDC101_right);
+
+            if (device_B == null)
+            {
+                MessageBox.Show("Device B is not a KDC101");
+            }
+
+            // Open a connection to the device.
+
+            try
+            {
+                device_A.Connect(KDC101_left);
+            }
+
+            catch (Exception)
+            {
+                // Connection failed
+                MessageBox.Show("Failed to open device A");
+            }
+
+            try
+            {
+                device_B.Connect(KDC101_right);
+            }
+
+            catch (Exception)
+            {
+                // Connection failed
+                MessageBox.Show("Failed to open device B");
+            }
+
+            Application.Run(new Form1());
+           
         }
     }
 }

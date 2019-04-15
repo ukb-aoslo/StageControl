@@ -82,6 +82,11 @@ namespace StageControl
             }
 
             Application.Run(new Form1());
+
+            //decimal value = device_A.GetMoveAbsolutePosition();
+
+            //device_A.SetMoveAbsolutePosition(40);
+
            
         }
     }

@@ -8,18 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace StageControl
 {
+   
     public partial class Form1 : Form
+
     {
+        Stages stages = new Stages();
+
         public Form1()
         {
             InitializeComponent();
+            stages.init();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-          Program.stages
+            String param = e.ToString();
+            stages.device_A.MoveTo(100, 60000);
         }
+
     }
 }

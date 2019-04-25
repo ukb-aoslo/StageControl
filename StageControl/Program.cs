@@ -74,30 +74,13 @@ namespace StageControl
             }
 
             // Wait for the device settings to initialize - timeout 5000ms
+            device_A.WaitForSettingsInitialized(5000);
+            device_B.WaitForSettingsInitialized(5000);
 
-            if (!device_A.IsSettingsInitialized())
-            {
-                try
-                {
-                    device_A.WaitForSettingsInitialized(5000);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Settings failed to initialize for Device A");
-                }
-            }
-
-            if (!device_B.IsSettingsInitialized())
-            {
-                try
-                {
-                    device_B.WaitForSettingsInitialized(5000);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Settings failed to initialize for Device B");
-                }
-            }
+            // Initialize the DeviceUnitConverter object required for real world
+            // unit parameters.
+            device_A.LoadMotorConfiguration(KDC101_left, DeviceConfiguration.DeviceSettingsUseOptionType.UseFileSettings);
+            device_B.LoadMotorConfiguration(KDC101_right, DeviceConfiguration.DeviceSettingsUseOptionType.UseFileSettings);
 
             // Start the device polling
             // The polling loop requests regular status requests to the motor to ensure the program keeps track of the device. 

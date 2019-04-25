@@ -25,24 +25,24 @@ namespace StageControl
         static String KBD101_left = "28250835";
         static String KBD101_right = "28250713";
 
-        public KCubeDCServo device_A;
-        public KCubeDCServo device_B;
+        public KCubeDCServo LinLi;
+        public KCubeDCServo LinRe;
 
         public MotorConfiguration motorConfiguration_A;
 
 
         public void init() {
-            device_A = KCubeDCServo.CreateKCubeDCServo(KDC101_left);
+            LinLi = KCubeDCServo.CreateKCubeDCServo(KDC101_left);
 
-            if (device_A == null)
+            if (LinLi == null)
 
             {
                 MessageBox.Show("Device A is not a KDC101");
             }
 
-            device_B = KCubeDCServo.CreateKCubeDCServo(KDC101_right);
+            LinRe = KCubeDCServo.CreateKCubeDCServo(KDC101_right);
 
-            if (device_B == null)
+            if (LinRe == null)
             {
                 MessageBox.Show("Device B is not a KDC101");
             }
@@ -51,7 +51,7 @@ namespace StageControl
 
             try
             {
-                device_A.Connect(KDC101_left);
+                LinLi.Connect(KDC101_left);
             }
 
             catch (Exception)
@@ -63,7 +63,7 @@ namespace StageControl
 
             try
             {
-                device_B.Connect(KDC101_right);
+                LinRe.Connect(KDC101_right);
             }
 
             catch (Exception)
@@ -74,23 +74,23 @@ namespace StageControl
             }
 
             // Wait for the device settings to initialize - timeout 5000ms
-            device_A.WaitForSettingsInitialized(5000);
-            device_B.WaitForSettingsInitialized(5000);
+            LinLi.WaitForSettingsInitialized(5000);
+            LinRe.WaitForSettingsInitialized(5000);
 
             // Initialize the DeviceUnitConverter object required for real world
             // unit parameters.
-            device_A.LoadMotorConfiguration(KDC101_left, DeviceConfiguration.DeviceSettingsUseOptionType.UseFileSettings);
-            device_B.LoadMotorConfiguration(KDC101_right, DeviceConfiguration.DeviceSettingsUseOptionType.UseFileSettings);
+            LinLi.LoadMotorConfiguration(KDC101_left, DeviceConfiguration.DeviceSettingsUseOptionType.UseFileSettings);
+            LinRe.LoadMotorConfiguration(KDC101_right, DeviceConfiguration.DeviceSettingsUseOptionType.UseFileSettings);
 
             // Start the device polling
             // The polling loop requests regular status requests to the motor to ensure the program keeps track of the device. 
-            device_A.StartPolling(250);
-            device_B.StartPolling(250);
+            LinLi.StartPolling(250);
+            LinRe.StartPolling(250);
             // Needs a delay so that the current enabled state can be obtained
             Thread.Sleep(500);
             // Enable the channel otherwise any move is ignored 
-            device_A.EnableDevice();
-            device_B.EnableDevice();
+            LinLi.EnableDevice();
+            LinRe.EnableDevice();
             // Needs a delay to give time for the device to be enabled
             Thread.Sleep(500);
          
@@ -130,9 +130,9 @@ namespace StageControl
 
         Application.Run(new Form1());
 
-        //decimal value = device_A.GetMoveAbsolutePosition();
+        //decimal value = LinLi.GetMoveAbsolutePosition();
 
-        //guitdevice_A.SetMoveAbsolutePosition(40);
+        //guitLinLi.SetMoveAbsolutePosition(40);
 
 
     }

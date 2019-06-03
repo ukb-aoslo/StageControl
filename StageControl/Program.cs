@@ -27,7 +27,7 @@ namespace StageControl
 
         public KCubeDCServo LinLi;
         public KCubeDCServo LinRe;
-
+        
         public MotorConfiguration motorConfiguration_A;
 
 
@@ -45,8 +45,9 @@ namespace StageControl
             if (LinRe == null)
             {
                 MessageBox.Show("Device B is not a KDC101");
-            }
-
+            }         
+            
+            
             // Open a connection to the device.
 
             try

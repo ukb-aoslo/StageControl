@@ -27,8 +27,8 @@ namespace StageControl
         private void button1_Click_1(object sender, EventArgs e)
         {
             //Bewegungsbefehle
-            stages.LinLi.Home(30000);
-            stages.LinRe.Home(30000);
+            stages.LinLi.Home(0);
+            stages.LinRe.Home(0);
         }
 
         //Textbox Augenabstand
@@ -38,8 +38,12 @@ namespace StageControl
             if (e.KeyChar == (char)13)
             {
                 //Geschwindigkeit einstellen
-                stages.LinLi.SetVelocityParams(40, 40);
-                stages.LinRe.SetVelocityParams(40, 40);
+                stages.LinLi.SetVelocityParams(400, 400);
+                stages.LinRe.SetVelocityParams(400, 400);
+
+                //No Backlash
+                stages.LinLi.SetBacklash(0);
+                stages.LinRe.SetBacklash(0);
 
                 //Inhalt der Textbox als int i
                 int i = 0;
@@ -53,16 +57,16 @@ namespace StageControl
                 int Augenposition = (300 - Augenabstand) / 2;
 
                 //Bewegungsbefehle
-                stages.LinLi.MoveTo(Augenposition, 7000);
-                stages.LinRe.MoveTo(Augenposition, 7000);
+                stages.LinLi.MoveTo(Augenposition, 0);
+                stages.LinRe.MoveTo(Augenposition, 0);
             }
         }
 
         //Home Button Winkel
         private void button3_Click(object sender, EventArgs e)
         {
-            stages.RotLi.Home(5000);
-            stages.RotRe.Home(5000);
+            stages.RotLi.Home(0);
+            stages.RotRe.Home(0);
         }
 
         //Textbox Vergenzwinkel
@@ -83,8 +87,8 @@ namespace StageControl
                 int Vergenzwinkel = i;
                 
                 //Bewegungsbefehle
-                stages.RotLi.MoveTo(Vergenzwinkel, 7000);
-                stages.RotRe.MoveTo(360 - Vergenzwinkel, 7000);
+                stages.RotLi.MoveTo(Vergenzwinkel, 0);
+                stages.RotRe.MoveTo(360 - Vergenzwinkel, 0);
             }
         }
     }

@@ -99,10 +99,10 @@ namespace StageControl
             }
 
             // Wait for the device settings to initialize - timeout 5000ms
-            LinLi.WaitForSettingsInitialized(50);
-            LinRe.WaitForSettingsInitialized(50);
-            RotLi.WaitForSettingsInitialized(50);
-            RotRe.WaitForSettingsInitialized(50);
+            LinLi.WaitForSettingsInitialized(500);
+            LinRe.WaitForSettingsInitialized(500);
+            RotLi.WaitForSettingsInitialized(500);
+            RotRe.WaitForSettingsInitialized(500);
 
             // Initialize the DeviceUnitConverter object required for real world
             // unit parameters.

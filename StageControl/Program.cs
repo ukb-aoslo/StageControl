@@ -99,10 +99,10 @@ namespace StageControl
             }
 
             // Wait for the device settings to initialize - timeout 5000ms
-            LinLi.WaitForSettingsInitialized(2000);
-            LinRe.WaitForSettingsInitialized(2000);
-            RotLi.WaitForSettingsInitialized(2000);
-            RotRe.WaitForSettingsInitialized(2000);
+            LinLi.WaitForSettingsInitialized(50);
+            LinRe.WaitForSettingsInitialized(50);
+            RotLi.WaitForSettingsInitialized(50);
+            RotRe.WaitForSettingsInitialized(50);
 
             // Initialize the DeviceUnitConverter object required for real world
             // unit parameters.
@@ -113,13 +113,13 @@ namespace StageControl
 
             // Start the device polling
             // The polling loop requests regular status requests to the motor to ensure the program keeps track of the device. 
-            LinLi.StartPolling(250);
-            LinRe.StartPolling(250);
-            RotLi.StartPolling(250);
-            RotRe.StartPolling(250);
+            LinLi.StartPolling(50);
+            LinRe.StartPolling(50);
+            RotLi.StartPolling(50);
+            RotRe.StartPolling(50);
 
             // Needs a delay so that the current enabled state can be obtained
-            Thread.Sleep(500);
+            Thread.Sleep(50);
 
             // Enable the channel otherwise any move is ignored 
             LinLi.EnableDevice();
@@ -128,7 +128,7 @@ namespace StageControl
             RotRe.EnableDevice();
             
             // Needs a delay to give time for the device to be enabled
-            Thread.Sleep(500);
+            Thread.Sleep(50);
         }
 
 

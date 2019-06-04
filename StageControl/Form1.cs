@@ -77,18 +77,40 @@ namespace StageControl
             {
 
                 //Inhalt der Textbox als int i
+                int j = 0;
+                if (!Int32.TryParse(textBox2.Text, out j))
+                {
+                    j = -1;
+                }
+
+                //Inhalt der Textbox als int i
                 int i = 0;
-                if (!Int32.TryParse(textBox2.Text, out i))
+                if (!Int32.TryParse(textBox1.Text, out i))
                 {
                     i = -1;
                 }
 
                 //Definitionen und Formeln
-                int Vergenzwinkel = i;
-                
-                //Bewegungsbefehle
-                stages.RotLi.MoveTo(Vergenzwinkel, 0);
-                stages.RotRe.MoveTo(360 - Vergenzwinkel, 0);
+                int Augenabstand = i;
+                int Augenposition = (300 - Augenabstand) / 2;
+                int Vergenzwinkel = j;
+                int Distanz = 100;
+                int Augenabstand0 = 65;
+                int Augenradius = 99/10;
+
+                double VergenzwinkelRad = Vergenzwinkel * 2 * Math.PI / 360;
+                double B = Math.Sin(VergenzwinkelRad) * (Distanz - (Augenabstand0 - i) / 2) / (Math.Sin(VergenzwinkelRad) + 1) + Math.Tan(VergenzwinkelRad) * Augenradius;
+                int B1 = Convert.ToInt32(B);
+                string Positionsoffset = Convert.ToString(B1);
+                MessageBox.Show(Positionsoffset);
+
+                //Bewegungsbefehle Rotation
+                stages.RotLi.MoveTo(Vergenzwinkel/2, 0);
+                stages.RotRe.MoveTo(360 - Vergenzwinkel/2, 0);
+
+                //Bewegungsbefehle Positionsoffset
+                stages.LinLi.MoveTo(Augenposition + B1, 0);
+                stages.LinRe.MoveTo(Augenposition + B1, 0);
             }
         }
     }

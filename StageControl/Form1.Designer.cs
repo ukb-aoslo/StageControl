@@ -115,7 +115,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 13);
             this.label5.TabIndex = 9;
-            this.label5.Text = "45 - 80 mm";
+            this.label5.Text = "50 - 70 mm";
             // 
             // label6
             // 
@@ -251,7 +251,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 13);
             this.label3.TabIndex = 23;
-            this.label3.Text = "0 - 25 mm";
+            this.label3.Text = "0 - 12 mm";
             // 
             // button13
             // 

@@ -39,8 +39,8 @@ namespace StageControl
             if (e.KeyChar == (char)13)
             {
                 //Geschwindigkeit einstellen
-                stages.LinLi.SetVelocityParams(400, 400);
-                stages.LinRe.SetVelocityParams(400, 400);
+                stages.LinLi.SetVelocityParams(10, 10);
+                stages.LinRe.SetVelocityParams(10, 10);
 
                 //No Backlash
                 stages.LinLi.SetBacklash(0);
@@ -54,18 +54,18 @@ namespace StageControl
                 }
 
                 //Maximum des Augenabstandes
-                if (i > 80)
+                if (i > 70)
                 {
-                    i = 80;
+                    i = 70;
                     textBox1.Clear();
                     string imax = Convert.ToString(i);
                     textBox1.AppendText(imax);
                 }
 
                 //Minimum des Augenabstandes
-                if (i < 45)
+                if (i < 50)
                 {
-                    i = 45;
+                    i = 50;
                     textBox1.Clear();
                     string imin = Convert.ToString(i);
                     textBox1.AppendText(imin);
@@ -73,12 +73,12 @@ namespace StageControl
                 
                 //Definitionen und Formeln
                 double Augenabstand = i;
-                double Augenpositiondouble = -5 * Augenabstand + 425;
+                double Augenpositiondouble = -5 * Augenabstand + 350;
                 decimal Augenposition = Convert.ToDecimal(Augenpositiondouble);
 
                 //Bewegungsbefehle
-                stages.LinLi.MoveTo(Augenposition, 0);
-                stages.LinRe.MoveTo(Augenposition, 0);
+                stages.LinLi.MoveTo(Augenposition / 10, 0);
+                stages.LinRe.MoveTo(Augenposition / 10, 0);
             }
         }
 
@@ -96,18 +96,18 @@ namespace StageControl
             double Augenabstand = i + 0.1;
 
             //Minimum des Augenabstandes
-            if (Augenabstand < 45)
+            if (Augenabstand < 50)
             {
-                Augenabstand = 45;
+                Augenabstand = 50;
                 textBox1.Clear();
                 string imin = Convert.ToString(Augenabstand);
                 textBox1.AppendText(imin);
             }
 
             //Maximum des Augenabstandes
-            if (Augenabstand > 80)
+            if (Augenabstand > 70)
             {
-                Augenabstand = 80;
+                Augenabstand = 70;
                 textBox1.Clear();
                 string imax = Convert.ToString(Augenabstand);
                 textBox1.AppendText(imax);
@@ -117,12 +117,12 @@ namespace StageControl
             textBox1.Clear();
             string AugenabstandString = Convert.ToString(Augenabstand);
             textBox1.AppendText(AugenabstandString);
-            double Augenpositiondouble = -5 * Augenabstand + 425;
+            double Augenpositiondouble = -5 * Augenabstand + 350;
             decimal Augenposition = Convert.ToDecimal(Augenpositiondouble);
 
             //Bewegungsbefehle
-            stages.LinLi.MoveTo(Augenposition, 0);
-            stages.LinRe.MoveTo(Augenposition, 0);
+            stages.LinLi.MoveTo(Augenposition / 10, 0);
+            stages.LinRe.MoveTo(Augenposition / 10, 0);
         }
 
         //+1 Button Textbox1 ------------------------------------------------------------
@@ -139,18 +139,18 @@ namespace StageControl
             double Augenabstand = i + 1;
 
             //Minimum des Augenabstandes
-            if (Augenabstand < 45)
+            if (Augenabstand < 50)
             {
-                Augenabstand = 45;
+                Augenabstand = 50;
                 textBox1.Clear();
                 string imin = Convert.ToString(Augenabstand);
                 textBox1.AppendText(imin);
             }
 
             //Maximum des Augenabstandes
-            if (Augenabstand > 80)
+            if (Augenabstand > 70)
             {
-                Augenabstand = 80;
+                Augenabstand = 70;
                 textBox1.Clear();
                 string imax = Convert.ToString(Augenabstand);
                 textBox1.AppendText(imax);
@@ -160,12 +160,12 @@ namespace StageControl
             textBox1.Clear();
             string AugenabstandString = Convert.ToString(Augenabstand);
             textBox1.AppendText(AugenabstandString);
-            double Augenpositiondouble = -5 * Augenabstand + 425;
+            double Augenpositiondouble = -5 * Augenabstand + 350;
             decimal Augenposition = Convert.ToDecimal(Augenpositiondouble);
 
             //Bewegungsbefehle
-            stages.LinLi.MoveTo(Augenposition, 0);
-            stages.LinRe.MoveTo(Augenposition, 0);
+            stages.LinLi.MoveTo(Augenposition / 10, 0);
+            stages.LinRe.MoveTo(Augenposition / 10, 0);
         }
 
         //-0.1 Button Textbox1 ------------------------------------------------------------
@@ -182,18 +182,18 @@ namespace StageControl
             double Augenabstand = i - 0.1;
 
             //Minimum des Augenabstandes
-            if (Augenabstand < 45)
+            if (Augenabstand < 50)
             {
-                Augenabstand = 45;
+                Augenabstand = 50;
                 textBox1.Clear();
                 string imin = Convert.ToString(Augenabstand);
                 textBox1.AppendText(imin);
             }
 
             //Maximum des Augenabstandes
-            if (Augenabstand > 80)
+            if (Augenabstand > 70)
             {
-                Augenabstand = 80;
+                Augenabstand = 70;
                 textBox1.Clear();
                 string imax = Convert.ToString(Augenabstand);
                 textBox1.AppendText(imax);
@@ -203,12 +203,12 @@ namespace StageControl
             textBox1.Clear();
             string AugenabstandString = Convert.ToString(Augenabstand);
             textBox1.AppendText(AugenabstandString);
-            double Augenpositiondouble = -5 * Augenabstand + 425;
+            double Augenpositiondouble = -5 * Augenabstand + 350;
             decimal Augenposition = Convert.ToDecimal(Augenpositiondouble);
 
             //Bewegungsbefehle
-            stages.LinLi.MoveTo(Augenposition, 0);
-            stages.LinRe.MoveTo(Augenposition, 0);
+            stages.LinLi.MoveTo(Augenposition / 10, 0);
+            stages.LinRe.MoveTo(Augenposition / 10, 0);
         }
 
         //-1 Button Textbox1 ------------------------------------------------------------
@@ -225,18 +225,18 @@ namespace StageControl
             double Augenabstand = i - 1;
 
             //Minimum des Augenabstandes
-            if (Augenabstand < 45)
+            if (Augenabstand < 50)
             {
-                Augenabstand = 45;
+                Augenabstand = 50;
                 textBox1.Clear();
                 string imin = Convert.ToString(Augenabstand);
                 textBox1.AppendText(imin);
             }
 
             //Maximum des Augenabstandes
-            if (Augenabstand > 80)
+            if (Augenabstand > 70)
             {
-                Augenabstand = 80;
+                Augenabstand = 70;
                 textBox1.Clear();
                 string imax = Convert.ToString(Augenabstand);
                 textBox1.AppendText(imax);
@@ -246,12 +246,12 @@ namespace StageControl
             textBox1.Clear();
             string AugenabstandString = Convert.ToString(Augenabstand);
             textBox1.AppendText(AugenabstandString);
-            double Augenpositiondouble = -5 * Augenabstand + 425;
+            double Augenpositiondouble = -5 * Augenabstand + 350;
             decimal Augenposition = Convert.ToDecimal(Augenpositiondouble);
 
             //Bewegungsbefehle
-            stages.LinLi.MoveTo(Augenposition, 0);
-            stages.LinRe.MoveTo(Augenposition, 0);
+            stages.LinLi.MoveTo(Augenposition / 10, 0);
+            stages.LinRe.MoveTo(Augenposition / 10, 0);
         }
 
         //Section2 Vergenzwinkel ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -302,18 +302,18 @@ namespace StageControl
                 }
 
                 //Maximum des Augenabstandes
-                if (i > 80)
+                if (i > 70)
                 {
-                    i = 80;
+                    i = 70;
                     textBox1.Clear();
                     string imax = Convert.ToString(i);
                     textBox1.AppendText(imax);
                 }
 
                 //Minimum des Augenabstandes
-                if (i < 45)
+                if (i < 50)
                 {
-                    i = 45;
+                    i = 50;
                     textBox1.Clear();
                     string imin = Convert.ToString(i);
                     textBox1.AppendText(imin);
@@ -321,13 +321,19 @@ namespace StageControl
 
                 //Definitionen und Formeln
                 double Augenabstand = i;
-                double Augenposition = -5 * Augenabstand + 425;
+                double Augenposition = -5 * Augenabstand + 350;
                 double Vergenzwinkel = j;
                 double Distanz = 100;
                 double Augenabstand0 = 65;
                 double Augenradius = 9.9;
                 double VergenzwinkelRad = Vergenzwinkel * 2 * Math.PI / 360;
                 double B = 10 * (Math.Sin(VergenzwinkelRad) * (Distanz - (Augenabstand0 - Augenabstand) / 2) / (Math.Sin(VergenzwinkelRad) + 1) + Math.Tan(VergenzwinkelRad) * Augenradius);
+
+                if (Augenposition + B > 120)
+                {
+                    B = 120 - Augenposition;
+                }
+
                 decimal Positionsoffset = Convert.ToInt32(B);
                 decimal Vergenzwinkeldecimal = Convert.ToDecimal(Vergenzwinkel);
                 decimal Augenpositiondecimal = Convert.ToDecimal(Augenposition);
@@ -340,8 +346,8 @@ namespace StageControl
                 stages.RotRe.MoveTo(360 - Vergenzwinkeldecimal / 2, 0);
 
                 //Bewegungsbefehle Positionsoffset
-                stages.LinLi.MoveTo(Augenpositiondecimal + Positionsoffset, 0);
-                stages.LinRe.MoveTo(Augenpositiondecimal + Positionsoffset, 0);
+                stages.LinLi.MoveTo((Augenpositiondecimal + Positionsoffset) / 10, 0);
+                stages.LinRe.MoveTo((Augenpositiondecimal + Positionsoffset) / 10, 0);
 
                 //In Textbox3 schreiben
                 textBox3.Clear();
@@ -385,18 +391,18 @@ namespace StageControl
             }
 
             //Maximum des Augenabstandes
-            if (i > 80)
+            if (i > 70)
             {
-                i = 80;
+                i = 70;
                 textBox1.Clear();
                 string imax = Convert.ToString(i);
                 textBox1.AppendText(imax);
             }
 
             //Minimum des Augenabstandes
-            if (i < 45)
+            if (i < 50)
             {
-                i = 45;
+                i = 50;
                 textBox1.Clear();
                 string imin = Convert.ToString(i);
                 textBox1.AppendText(imin);
@@ -404,13 +410,19 @@ namespace StageControl
 
             //Definitionen und Formeln
             double Augenabstand = i;
-            double Augenposition = -5 * Augenabstand + 425;
+            double Augenposition = -5 * Augenabstand + 350;
             double Vergenzwinkel = j + 1;
             double Distanz = 100;
             double Augenabstand0 = 65;
             double Augenradius = 9.9;
             double VergenzwinkelRad = Vergenzwinkel * 2 * Math.PI / 360;
             double B = 10 * (Math.Sin(VergenzwinkelRad) * (Distanz - (Augenabstand0 - Augenabstand) / 2) / (Math.Sin(VergenzwinkelRad) + 1) + Math.Tan(VergenzwinkelRad) * Augenradius);
+            
+            if (Augenposition + B > 120)
+            {
+                B = 120 - Augenposition;
+            }
+
             decimal Positionsoffset = Convert.ToInt32(B);
             decimal Vergenzwinkeldecimal = Convert.ToDecimal(Vergenzwinkel);
             decimal Augenpositiondecimal = Convert.ToDecimal(Augenposition);
@@ -424,8 +436,8 @@ namespace StageControl
             stages.RotRe.MoveTo(360 - Vergenzwinkeldecimal / 2, 0);
 
             //Bewegungsbefehle Positionsoffset
-            stages.LinLi.MoveTo(Augenpositiondecimal + Positionsoffset, 0);
-            stages.LinRe.MoveTo(Augenpositiondecimal + Positionsoffset, 0);
+            stages.LinLi.MoveTo((Augenpositiondecimal + Positionsoffset) / 10, 0);
+            stages.LinRe.MoveTo((Augenpositiondecimal + Positionsoffset) / 10, 0);
 
             //in Textbox2 schreiben
             textBox2.Clear();
@@ -472,18 +484,18 @@ namespace StageControl
             }
 
             //Maximum des Augenabstandes
-            if (i > 80)
+            if (i > 70)
             {
-                i = 80;
+                i = 70;
                 textBox1.Clear();
                 string imax = Convert.ToString(i);
                 textBox1.AppendText(imax);
             }
 
             //Minimum des Augenabstandes
-            if (i < 45)
+            if (i < 50)
             {
-                i = 45;
+                i = 50;
                 textBox1.Clear();
                 string imin = Convert.ToString(i);
                 textBox1.AppendText(imin);
@@ -491,13 +503,19 @@ namespace StageControl
 
             //Definitionen und Formeln
             double Augenabstand = i;
-            double Augenposition = -5 * Augenabstand + 425;
+            double Augenposition = -5 * Augenabstand + 350;
             double Vergenzwinkel = j - 1;
             double Distanz = 100;
             double Augenabstand0 = 65;
             double Augenradius = 9.9;
             double VergenzwinkelRad = Vergenzwinkel * 2 * Math.PI / 360;
             double B = 10 * (Math.Sin(VergenzwinkelRad) * (Distanz - (Augenabstand0 - Augenabstand) / 2) / (Math.Sin(VergenzwinkelRad) + 1) + Math.Tan(VergenzwinkelRad) * Augenradius);
+
+            if (Augenposition + B > 120)
+            {
+                B = 120 - Augenposition;
+            }
+
             decimal Positionsoffset = Convert.ToInt32(B);
             decimal Vergenzwinkeldecimal = Convert.ToDecimal(Vergenzwinkel);
             decimal Augenpositiondecimal = Convert.ToDecimal(Augenposition);
@@ -511,8 +529,8 @@ namespace StageControl
             stages.RotRe.MoveTo(360 - Vergenzwinkeldecimal / 2, 0);
 
             //Bewegungsbefehle Positionsoffset
-            stages.LinLi.MoveTo(Augenpositiondecimal + Positionsoffset, 0);
-            stages.LinRe.MoveTo(Augenpositiondecimal + Positionsoffset, 0);
+            stages.LinLi.MoveTo((Augenpositiondecimal + Positionsoffset) / 10, 0);
+            stages.LinRe.MoveTo((Augenpositiondecimal + Positionsoffset) / 10, 0);
 
             //in Textbox2 schreiben
             textBox2.Clear();
@@ -539,8 +557,8 @@ namespace StageControl
             if (e.KeyChar == (char)13)
             {
                 //Geschwindigkeit einstellen
-                stages.LinLi.SetVelocityParams(400, 400);
-                stages.LinRe.SetVelocityParams(400, 400);
+                stages.LinLi.SetVelocityParams(10, 10);
+                stages.LinRe.SetVelocityParams(10, 10);
 
                 //No Backlash
                 stages.LinLi.SetBacklash(0);
@@ -554,9 +572,9 @@ namespace StageControl
                 }
 
                 //Maximum des Augenabstandes
-                if (k > 22)
+                if (k > 12)
                 {
-                    k = 22;
+                    k = 12;
                     textBox3.Clear();
                     string imax = Convert.ToString(k);
                     textBox3.AppendText(imax);
@@ -572,7 +590,7 @@ namespace StageControl
                 }
 
                 //Definitionen und Formeln
-                decimal Stageposition = Convert.ToDecimal(k*10);
+                decimal Stageposition = Convert.ToDecimal(k);
 
                 //Bewegungsbefehle
                 stages.LinLi.MoveTo(Stageposition, 0);
@@ -591,9 +609,9 @@ namespace StageControl
             }
 
             //Maximum des Augenabstandes
-            if (k > 22)
+            if (k > 12)
             {
-                k = 22;
+                k = 12;
                 textBox3.Clear();
                 string imax = Convert.ToString(k);
                 textBox3.AppendText(imax);
@@ -610,7 +628,7 @@ namespace StageControl
 
             //Definitionen und Formeln
             double kNew = k + 0.1;
-            decimal Stageposition = Convert.ToDecimal(kNew * 10);
+            decimal Stageposition = Convert.ToDecimal(kNew);
             string kNewString = Convert.ToString(kNew);
 
             //Bewegungsbefehle
@@ -633,9 +651,9 @@ namespace StageControl
             }
 
             //Maximum des Augenabstandes
-            if (k > 22)
+            if (k > 12)
             {
-                k = 22;
+                k = 12;
                 textBox3.Clear();
                 string imax = Convert.ToString(k);
                 textBox3.AppendText(imax);
@@ -652,7 +670,7 @@ namespace StageControl
 
             //Definitionen und Formeln
             double kNew = k - 0.1;
-            decimal Stageposition = Convert.ToDecimal(kNew * 10);
+            decimal Stageposition = Convert.ToDecimal(kNew);
             string kNewString = Convert.ToString(kNew);
 
             //Bewegungsbefehle
@@ -675,9 +693,9 @@ namespace StageControl
             }
 
             //Maximum des Augenabstandes
-            if (k > 22)
+            if (k > 12)
             {
-                k = 22;
+                k = 12;
                 textBox3.Clear();
                 string imax = Convert.ToString(k);
                 textBox3.AppendText(imax);
@@ -694,7 +712,7 @@ namespace StageControl
 
             //Definitionen und Formeln
             double kNew = k + 1;
-            decimal Stageposition = Convert.ToDecimal(kNew * 10);
+            decimal Stageposition = Convert.ToDecimal(kNew);
             string kNewString = Convert.ToString(kNew);
 
             //Bewegungsbefehle
@@ -717,9 +735,9 @@ namespace StageControl
             }
 
             //Maximum des Augenabstandes
-            if (k > 22)
+            if (k > 12)
             {
-                k = 22;
+                k = 12;
                 textBox3.Clear();
                 string imax = Convert.ToString(k);
                 textBox3.AppendText(imax);
@@ -736,7 +754,7 @@ namespace StageControl
 
             //Definitionen und Formeln
             double kNew = k - 1;
-            decimal Stageposition = Convert.ToDecimal(kNew * 10);
+            decimal Stageposition = Convert.ToDecimal(kNew);
             string kNewString = Convert.ToString(kNew);
 
             //Bewegungsbefehle

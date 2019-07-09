@@ -93,12 +93,26 @@ namespace StageControl
                 stages.RotLi.MoveTo(Vergenzwinkeldecimal / 2, 0);
                 stages.RotRe.MoveTo(360 - Vergenzwinkeldecimal / 2, 0);
 
+                //Inhalt der Textbox3 Stageposition als int k
+                double k = 0;
+                if (!double.TryParse(textBox3.Text, out k))
+                {
+                    k = -1;
+                }
+
+                //Definitionen und Formeln
+                double Distanz = 150;
+                double Augenradius = 9.9;
+                double AbstSpiegelLinse = 45;
+                double VergenzwinkelRad = Vergenzwinkel * 2 * Math.PI / 360;
+                double B = Math.Sin(VergenzwinkelRad) * (Distanz - k - AbstSpiegelLinse + Augenradius);
+                decimal Positionsoffset = Convert.ToDecimal(Math.Round(B,2));
+                string Positionsoffsetstring = Convert.ToString(Positionsoffset);
+
                 //in Textbox 5 Positionskorrektur schreiben
-                decimal x = 10;
-                string test = Convert.ToString(x);
                 textBox5.Clear();
                 textBox5.AppendText("+");
-                textBox5.AppendText(test);
+                textBox5.AppendText(Positionsoffsetstring);
             }
         }
 

@@ -296,6 +296,7 @@
             this.textBox5.Location = new System.Drawing.Point(253, 336);
             this.textBox5.MaxLength = 3;
             this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(75, 20);
             this.textBox5.TabIndex = 33;
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -370,7 +371,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(414, 414);
+            this.ClientSize = new System.Drawing.Size(409, 402);
             this.Controls.Add(this.button16);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.label10);

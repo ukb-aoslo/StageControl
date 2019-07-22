@@ -37,6 +37,8 @@ namespace StageControl
             stages.LinRe.SetBacklash(0);
 
             //Home Vergenzwinkel
+            stages.RotLi.SetVelocityParams(100, 100);
+            stages.RotRe.SetVelocityParams(100, 100);
             stages.RotLi.Home(0);
             stages.RotRe.Home(0);
 
@@ -53,6 +55,8 @@ namespace StageControl
             textBox4.AppendText(Zerostring);
             textBox6.Clear();
             textBox6.AppendText(sixnine);
+            textBox5.Clear();
+            textBox5.AppendText(Zerostring);
         }
 
         //Section1 Vergenzwinkel ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -90,7 +94,7 @@ namespace StageControl
             if (e.KeyChar == (char)13)
             {
 
-                //Inhalt der Textbox2 als int j
+                //Inhalt der Textbox2 Vergenzwinkel als double j
                 double j = 0;
                 if (!double.TryParse(textBox2.Text, out j))
                 {
@@ -118,12 +122,14 @@ namespace StageControl
                 //Definitionen und Formeln
                 double Vergenzwinkel = j;
                 decimal Vergenzwinkeldecimal = Convert.ToDecimal(Vergenzwinkel);
-                
+
                 //Bewegungsbefehle Rotation
+                stages.RotLi.SetVelocityParams(1, 40);
+                stages.RotRe.SetVelocityParams(1, 40);
                 stages.RotLi.MoveTo(Vergenzwinkeldecimal / 2, 0);
                 stages.RotRe.MoveTo(360 - Vergenzwinkeldecimal / 2, 0);
 
-                //Inhalt der Textbox3 Stageposition als int k
+                //Inhalt der Textbox3 Stageposition als double k
                 double k = 0;
                 if (!double.TryParse(textBox3.Text, out k))
                 {
@@ -139,17 +145,55 @@ namespace StageControl
                 decimal Positionsoffset = Convert.ToDecimal(Math.Round(B,2));
                 string Positionsoffsetstring = Convert.ToString(Positionsoffset);
 
-                //in Textbox 5 Positionskorrektur schreiben
+                //vorherige Positionskorrektur aus Textbox5 auslesen
+                double d = 0;
+                if (!double.TryParse(textBox5.Text, out d))
+                {
+                    d = -1;
+                }
+
+                //Unkorrigierte Position
+                double P0 = k - d;
+
+                //Neue Korrigierte Position
+                decimal P1 = Convert.ToDecimal(P0) + Positionsoffset;
+
+                //Maximum der Stageposition
+                if (P1 > 14)
+                {
+                    P1 = 14;
+                }
+
+                //Minimum der Stageposition
+                if (P1 < 0)
+                {
+                    P1 = 0;
+                }
+
+                //Bewegungsbefehle für lineare Stages
+                stages.LinLi.MoveTo(P1, 0);
+                stages.LinRe.MoveTo(P1, 0);
+
+                //in Textboxen schreiben
+                string P1string = Convert.ToString(P1);
+                string A1string = Convert.ToString(2 * (34.5 - Convert.ToDouble(P1)));
                 textBox5.Clear();
-                textBox5.AppendText("+");
                 textBox5.AppendText(Positionsoffsetstring);
+                textBox3.Clear();
+                textBox3.AppendText(P1string);
+                textBox1.Clear();
+                textBox1.AppendText(P1string);
+                textBox4.Clear();
+                textBox4.AppendText(P1string);
+                textBox6.Clear();
+                textBox6.AppendText(A1string);
             }
         }
 
         //Vergenzwinkel +1 ------------------------------------------------------------
         private void button7_Click(object sender, EventArgs e)
         {
-            //Inhalt der Textbox2 als int j
+            //Inhalt der Textbox2 Vergenzwinkel als double j
             double j = 0;
             if (!double.TryParse(textBox2.Text, out j))
             {
@@ -157,39 +201,31 @@ namespace StageControl
             }
             
             //Definitionen und Formeln
-            double Vergenzwinkel = j + 1;
+            double V = j + 1;
 
             //Maximum des Vergenzwinkels
-            if (Vergenzwinkel > 5)
+            if (V > 5)
             {
-                Vergenzwinkel = 5;
-                textBox2.Clear();
-                string jmax = Convert.ToString(Vergenzwinkel);
-                textBox2.AppendText(jmax);
+                V = 5;
             }
 
             //Minimum des Vergenzwinkels
-            if (Vergenzwinkel < 0)
+            if (V < 0)
             {
-                Vergenzwinkel = 0;
-                textBox2.Clear();
-                string jmax = Convert.ToString(Vergenzwinkel);
-                textBox2.AppendText(jmax);
+                V = 0;
             }
 
             //Definitionen und Formeln
-            decimal Vergenzwinkeldecimal = Convert.ToDecimal(Vergenzwinkel);
-            string Vergenzwinkelstring = Convert.ToString(Vergenzwinkel);
+            decimal Vdecimal = Convert.ToDecimal(V);
+            string Vstring = Convert.ToString(V);
 
             //Bewegungsbefehle Rotation
-            stages.RotLi.MoveTo(Vergenzwinkeldecimal / 2, 0);
-            stages.RotRe.MoveTo(360 - Vergenzwinkeldecimal / 2, 0);
+            stages.RotLi.SetVelocityParams(1, 40);
+            stages.RotRe.SetVelocityParams(1, 40);
+            stages.RotLi.MoveTo(Vdecimal / 2, 0);
+            stages.RotRe.MoveTo(360 - Vdecimal / 2, 0);
 
-            //in Textbox2 schreiben
-            textBox2.Clear();
-            textBox2.AppendText(Vergenzwinkelstring);
-
-            //Inhalt der Textbox3 Stageposition als int k
+            //Inhalt der Textbox3 Stageposition als double k
             double k = 0;
             if (!double.TryParse(textBox3.Text, out k))
             {
@@ -200,21 +236,61 @@ namespace StageControl
             double Distanz = 150;
             double Augenradius = 9.9;
             double AbstSpiegelLinse = 45;
-            double VergenzwinkelRad = Vergenzwinkel * 2 * Math.PI / 360;
+            double VergenzwinkelRad = V * 2 * Math.PI / 360;
             double B = Math.Sin(VergenzwinkelRad) * (Distanz - k - AbstSpiegelLinse + Augenradius);
             decimal Positionsoffset = Convert.ToDecimal(Math.Round(B, 2));
             string Positionsoffsetstring = Convert.ToString(Positionsoffset);
 
-            //in Textbox 5 Positionskorrektur schreiben
+            //vorherige Positionskorrektur aus Textbox5 auslesen
+            double d = 0;
+            if (!double.TryParse(textBox5.Text, out d))
+            {
+                d = -1;
+            }
+
+            //Unkorrigierte Position
+            double P0 = k - d;
+
+            //Neue Korrigierte Position
+            decimal P1 = Convert.ToDecimal(P0) + Positionsoffset;
+
+            //Maximum der Stageposition
+            if (P1 > 14)
+            {
+                P1 = 14;
+            }
+
+            //Minimum der Stageposition
+            if (P1 < 0)
+            {
+                P1 = 0;
+            }
+
+            //Bewegungsbefehle für lineare Stages
+            stages.LinLi.MoveTo(P1, 0);
+            stages.LinRe.MoveTo(P1, 0);
+
+            //in Textboxen schreiben
+            string P1string = Convert.ToString(P1);
+            string A1string = Convert.ToString(2 * (34.5 - Convert.ToDouble(P1)));
             textBox5.Clear();
-            textBox5.AppendText("+");
             textBox5.AppendText(Positionsoffsetstring);
+            textBox3.Clear();
+            textBox3.AppendText(P1string);
+            textBox1.Clear();
+            textBox1.AppendText(P1string);
+            textBox4.Clear();
+            textBox4.AppendText(P1string);
+            textBox6.Clear();
+            textBox6.AppendText(A1string);
+            textBox2.Clear();
+            textBox2.AppendText(Vstring);
         }
 
         //Vergenzwinkel -1 ------------------------------------------------------------
         private void button8_Click(object sender, EventArgs e)
         {
-            //Inhalt der Textbox2 als int j
+            //Inhalt der Textbox2 Vergenzwinkel als double j
             double j = 0;
             if (!double.TryParse(textBox2.Text, out j))
             {
@@ -222,39 +298,31 @@ namespace StageControl
             }
 
             //Definitionen und Formeln
-            double Vergenzwinkel = j - 1;
+            double V = j - 1;
 
             //Maximum des Vergenzwinkels
-            if (Vergenzwinkel > 5)
+            if (V > 5)
             {
-                Vergenzwinkel = 5;
-                textBox2.Clear();
-                string jmax = Convert.ToString(Vergenzwinkel);
-                textBox2.AppendText(jmax);
+                V = 5;
             }
 
             //Minimum des Vergenzwinkels
-            if (Vergenzwinkel < 0)
+            if (V < 0)
             {
-                Vergenzwinkel = 0;
-                textBox2.Clear();
-                string jmax = Convert.ToString(Vergenzwinkel);
-                textBox2.AppendText(jmax);
+                V = 0;
             }
 
             //Definitionen und Formeln
-            decimal Vergenzwinkeldecimal = Convert.ToDecimal(Vergenzwinkel);
-            string Vergenzwinkelstring = Convert.ToString(Vergenzwinkel);
+            decimal Vdecimal = Convert.ToDecimal(V);
+            string Vstring = Convert.ToString(V);
 
             //Bewegungsbefehle Rotation
-            stages.RotLi.MoveTo(Vergenzwinkeldecimal / 2, 0);
-            stages.RotRe.MoveTo(360 - Vergenzwinkeldecimal / 2, 0);
+            stages.RotLi.SetVelocityParams(1, 40);
+            stages.RotRe.SetVelocityParams(1, 40);
+            stages.RotLi.MoveTo(Vdecimal / 2, 0);
+            stages.RotRe.MoveTo(360 - Vdecimal / 2, 0);
 
-            //in Textbox2 schreiben
-            textBox2.Clear();
-            textBox2.AppendText(Vergenzwinkelstring);
-
-            //Inhalt der Textbox3 Stageposition als int k
+            //Inhalt der Textbox3 Stageposition als double k
             double k = 0;
             if (!double.TryParse(textBox3.Text, out k))
             {
@@ -265,15 +333,55 @@ namespace StageControl
             double Distanz = 150;
             double Augenradius = 9.9;
             double AbstSpiegelLinse = 45;
-            double VergenzwinkelRad = Vergenzwinkel * 2 * Math.PI / 360;
+            double VergenzwinkelRad = V * 2 * Math.PI / 360;
             double B = Math.Sin(VergenzwinkelRad) * (Distanz - k - AbstSpiegelLinse + Augenradius);
             decimal Positionsoffset = Convert.ToDecimal(Math.Round(B, 2));
             string Positionsoffsetstring = Convert.ToString(Positionsoffset);
 
-            //in Textbox 5 Positionskorrektur schreiben
+            //vorherige Positionskorrektur aus Textbox5 auslesen
+            double d = 0;
+            if (!double.TryParse(textBox5.Text, out d))
+            {
+                d = -1;
+            }
+
+            //Unkorrigierte Position
+            double P0 = k - d;
+
+            //Neue Korrigierte Position
+            decimal P1 = Convert.ToDecimal(P0) + Positionsoffset;
+
+            //Maximum der Stageposition
+            if (P1 > 14)
+            {
+                P1 = 14;
+            }
+
+            //Minimum der Stageposition
+            if (P1 < 0)
+            {
+                P1 = 0;
+            }
+
+            //Bewegungsbefehle für lineare Stages
+            stages.LinLi.MoveTo(P1, 0);
+            stages.LinRe.MoveTo(P1, 0);
+
+            //in Textboxen schreiben
+            string P1string = Convert.ToString(P1);
+            string A1string = Convert.ToString(2 * (34.5 - Convert.ToDouble(P1)));
             textBox5.Clear();
-            textBox5.AppendText("+");
             textBox5.AppendText(Positionsoffsetstring);
+            textBox3.Clear();
+            textBox3.AppendText(P1string);
+            textBox1.Clear();
+            textBox1.AppendText(P1string);
+            textBox4.Clear();
+            textBox4.AppendText(P1string);
+            textBox6.Clear();
+            textBox6.AppendText(A1string);
+            textBox2.Clear();
+            textBox2.AppendText(Vstring);
         }
 
         //Section2 Stageposition ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -312,7 +420,7 @@ namespace StageControl
                     k = -1;
                 }
 
-                //Maximum des Augenabstandes
+                //Maximum der Stageposition
                 if (k > 14)
                 {
                     k = 14;
@@ -321,7 +429,7 @@ namespace StageControl
                     textBox3.AppendText(imax);
                 }
 
-                //Minimum des Augenabstandes
+                //Minimum der Stageposition
                 if (k < 0)
                 {
                     k = 0;

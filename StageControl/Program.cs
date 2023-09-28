@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
 using Thorlabs.MotionControl.DeviceManagerCLI;
-using Thorlabs.MotionControl.GenericMotorCLI;
-using Thorlabs.MotionControl.GenericMotorCLI.ControlParameters;
-using Thorlabs.MotionControl.GenericMotorCLI.AdvancedMotor;
-using Thorlabs.MotionControl.GenericMotorCLI.KCubeMotor;
 using Thorlabs.MotionControl.KCube.BrushlessMotorCLI;
-using Thorlabs.MotionControl.GenericMotorCLI.Settings;
 using Thorlabs.MotionControl.KCube.DCServoCLI;
 
 
@@ -32,7 +24,9 @@ namespace StageControl
         public KCubeBrushlessMotor RotLi;
         public KCubeBrushlessMotor RotRe;
 
-        public void init() {
+        public void Init()
+        {
+
             LinLi = KCubeDCServo.CreateKCubeDCServo(KDC101_left);
             if (LinLi == null)
             {
@@ -75,6 +69,7 @@ namespace StageControl
             catch (Exception)
             {
                 // Connection failed
+
                 MessageBox.Show("Failed to open device B");
             }
 
@@ -131,44 +126,69 @@ namespace StageControl
             Thread.Sleep(50);
         }
 
+        // shut down all devices
+        public void Disconnect()
+        {
+            if (LinLi != null
+                && LinLi.IsConnected)
+            {
+                LinLi.Disconnect(true);
+            }
 
+            if (LinRe != null
+                && LinRe.IsConnected)
+            {
+                LinRe.Disconnect(true);
+            }
 
+            if (RotLi != null
+                && RotLi.IsConnected)
+            {
+                RotLi.Disconnect(true);
+            }
+
+            if (RotRe != null
+                && RotRe.IsConnected)
+            {
+                RotRe.Disconnect(true);
+            }
+        }
     }
 
 
 
     static class Program
-{
-
-    /// <summary>
-    /// The main entry point for the application.
-
-    /// </summary>
-    [STAThread]
-    static void Main()
     {
 
-        try
+        /// <summary>
+        /// The main entry point for the application.
+
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-            // build device list
-            DeviceManagerCLI.BuildDeviceList();
+
+            try
+            {
+                // build device list
+                DeviceManagerCLI.BuildDeviceList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception raised by BuildDeviceList {0}", ex.ToString());
+                return;
+            }
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            Application.Run(new StageControl());
+
+            //decimal value = LinLi.GetMoveAbsolutePosition();
+
+            //guitLinLi.SetMoveAbsolutePosition(40);
+
+
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show("Exception raised by BuildDeviceList {0}", ex.ToString());
-            return;
-        }
-
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
-
-        Application.Run(new StageControl());
-
-        //decimal value = LinLi.GetMoveAbsolutePosition();
-
-        //guitLinLi.SetMoveAbsolutePosition(40);
-
-
     }
-}
 }

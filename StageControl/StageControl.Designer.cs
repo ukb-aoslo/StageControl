@@ -199,9 +199,9 @@
             this.StagePosLimitLabel.AutoSize = true;
             this.StagePosLimitLabel.Location = new System.Drawing.Point(334, 195);
             this.StagePosLimitLabel.Name = "StagePosLimitLabel";
-            this.StagePosLimitLabel.Size = new System.Drawing.Size(53, 13);
+            this.StagePosLimitLabel.Size = new System.Drawing.Size(56, 13);
             this.StagePosLimitLabel.TabIndex = 23;
-            this.StagePosLimitLabel.Text = "0 - 14 mm";
+            this.StagePosLimitLabel.Text = "-1 - 14 mm";
             // 
             // StagePosHomeButton
             // 
@@ -346,7 +346,7 @@
             this.AugenabstandLimitLabel.Name = "AugenabstandLimitLabel";
             this.AugenabstandLimitLabel.Size = new System.Drawing.Size(59, 13);
             this.AugenabstandLimitLabel.TabIndex = 38;
-            this.AugenabstandLimitLabel.Text = "41 - 69 mm";
+            this.AugenabstandLimitLabel.Text = "41 - 71 mm";
             // 
             // AugenabstandUpButton
             // 

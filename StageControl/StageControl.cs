@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 
+using Thorlabs.MotionControl.GenericMotorCLI;
 
 namespace StageControl
 {
@@ -9,6 +10,7 @@ namespace StageControl
     public partial class StageControl : Form
     {
         Stages stages = new Stages();
+        ManualResetEvent waitEvent = new ManualResetEvent(false);
 
         public StageControl()
         {
@@ -31,8 +33,8 @@ namespace StageControl
             //Home Vergenzwinkel
             stages.RotLi.SetVelocityParams(100, 100);
             stages.RotRe.SetVelocityParams(100, 100);
-            stages.RotLi.Home(0);
-            stages.RotRe.Home(0);
+            stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(0, 0));
+            stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(0, 0));
 
             //in Textboxen schreiben
             string Zerostring = Convert.ToString(0);
@@ -55,10 +57,10 @@ namespace StageControl
         //Home Button Vergenzwinkel ------------------------------------------------------------
         private void VergenzwinkelButton_Click(object sender, EventArgs e)
         {
-            if (stages.LinLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.LinRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.RotLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.RotRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle)
+            if (stages.LinLi.State != MotorStates.Idle
+                || stages.LinRe.State != MotorStates.Idle
+                || stages.RotLi.State != MotorStates.Idle
+                || stages.RotRe.State != MotorStates.Idle)
                 return;
 
             //Bring Stages in a save Position
@@ -66,12 +68,14 @@ namespace StageControl
             stages.LinRe.MoveTo(0, 8000);
 
             //Home Vergenzwinkel
-            stages.RotLi.Home(0);
-            stages.RotRe.Home(0);
+            // croatch so the mirrors will not fluctuate
+            stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(0, 0));
+            stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(0, 0));
 
             //in Textboxen schreiben
             string Zerostring = Convert.ToString(0);
             string sixnine = Convert.ToString(69);
+            PosKorrekturTextBox.Text = Zerostring;
             StagePosBeideTextBox.Clear();
             StagePosBeideTextBox.AppendText(Zerostring);
             VergenzwinkelTextBox.Clear();
@@ -108,10 +112,10 @@ namespace StageControl
 
         private void VergenzwinkelSetup(object sender)
         {
-            if (stages.LinLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.LinRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.RotLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.RotRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle)
+            if (stages.LinLi.State != MotorStates.Idle
+                || stages.LinRe.State != MotorStates.Idle
+                || stages.RotLi.State != MotorStates.Idle
+                || stages.RotRe.State != MotorStates.Idle)
                 return;
 
             //Inhalt der Textbox2 Vergenzwinkel als double j
@@ -142,14 +146,17 @@ namespace StageControl
             }
 
             //Definitionen und Formeln
-            decimal Vdecimal = Convert.ToDecimal(V);
+            decimal Vdecimal = Convert.ToDecimal(V) / 2;
             string Vstring = Convert.ToString(V);
 
             //Bewegungsbefehle Rotation
-            stages.RotLi.SetVelocityParams(1, 40);
-            stages.RotRe.SetVelocityParams(1, 40);
-            stages.RotLi.MoveTo(Vdecimal / 2, 0);
-            stages.RotRe.MoveTo(360 - Vdecimal / 2, 0);
+            stages.RotLi.SetVelocityParams(100, 1000);
+            stages.RotRe.SetVelocityParams(100, 1000);
+            // stages.RotLi.MoveTo(Vdecimal, 0);
+            // stages.RotLi.MoveTo(360 - Vdecimal, 0);
+
+            stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(Vdecimal, 0));
+            stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(360 - Vdecimal, 0));
 
             //Inhalt der Textbox3 Stageposition als double k
             double k = 0;
@@ -217,8 +224,8 @@ namespace StageControl
         //Homebutton Stageposition ------------------------------------------------------------
         private void StagePosHomeButton_Click(object sender, EventArgs e)
         {
-            if (stages.LinLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.LinRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle)
+            if (stages.LinLi.State != MotorStates.Idle
+                || stages.LinRe.State != MotorStates.Idle)
                 return;
 
             //Bewegungsbefehle
@@ -265,8 +272,8 @@ namespace StageControl
 
         private void SetupBeideStagePos(object sender)
         {
-            if (stages.LinLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.LinRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle)
+            if (stages.LinLi.State != MotorStates.Idle
+                || stages.LinRe.State != MotorStates.Idle)
                 return;
 
             //Inhalt der Textbox als int k
@@ -298,9 +305,9 @@ namespace StageControl
             }
 
             //Minimum der Stageposition
-            if (kNew < 0)
+            if (kNew < -1)
             {
-                kNew = 0;
+                kNew = -1;
                 StagePosBeideTextBox.Clear();
                 string imin = Convert.ToString(kNew);
                 StagePosBeideTextBox.AppendText(imin);
@@ -346,8 +353,8 @@ namespace StageControl
         //Section3 einzelne Stagepositionen ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         private void SetupLinksStagePos(object sender)
         {
-            if (stages.LinLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.LinRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle)
+            if (stages.LinLi.State != MotorStates.Idle
+                || stages.LinRe.State != MotorStates.Idle)
                 return;
 
             //Inhalt der Textbox1 (links) als double k
@@ -374,9 +381,9 @@ namespace StageControl
             }
 
             //Minimum des Augenabstandes
-            if (kNew < 0)
+            if (kNew < -1)
             {
-                kNew = 0;
+                kNew = -1;
                 StagePosLinksTextBox.Clear();
                 string imin = Convert.ToString(kNew);
                 StagePosLinksTextBox.AppendText(imin);
@@ -432,8 +439,8 @@ namespace StageControl
 
         private void SetupRechtsStagePos(object sender)
         {
-            if (stages.LinLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.LinRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle)
+            if (stages.LinLi.State != MotorStates.Idle
+                || stages.LinRe.State != MotorStates.Idle)
                 return;
             //Inhalt der Textbox4 (rechts) als double k
             double k = 0;
@@ -460,9 +467,9 @@ namespace StageControl
             }
 
             //Minimum des Augenabstandes
-            if (kNew < 0)
+            if (kNew < -1)
             {
-                kNew = 0;
+                kNew = -1;
                 StagePosRechtsTextBox.Clear();
                 string imin = Convert.ToString(kNew);
                 StagePosRechtsTextBox.AppendText(imin);
@@ -523,10 +530,10 @@ namespace StageControl
             //Bestätigen der Eingabe mit Enter
             if (e.KeyChar == (char)13)
             {
-                if (stages.LinLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                    || stages.LinRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                    || stages.RotLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                    || stages.RotRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle)
+                if (stages.LinLi.State != MotorStates.Idle
+                    || stages.LinRe.State != MotorStates.Idle
+                    || stages.RotLi.State != MotorStates.Idle
+                    || stages.RotRe.State != MotorStates.Idle)
                     return;
 
                 //Inhalt der Textbox6 als double A
@@ -549,9 +556,9 @@ namespace StageControl
                 }
 
                 //Minimum des Augenabstandes
-                if (k < 0)
+                if (k < -1)
                 {
-                    k = 0;
+                    k = -1;
                     AugenabstandTextBox.Clear();
                     string imin = Convert.ToString(2 * (34.5 - k));
                     AugenabstandTextBox.AppendText(imin);
@@ -587,10 +594,10 @@ namespace StageControl
 
         private void AugenabstandSetup(object sender)
         {
-            if (stages.LinLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.LinRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.RotLi.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle
-                || stages.RotRe.State != Thorlabs.MotionControl.GenericMotorCLI.MotorStates.Idle)
+            if (stages.LinLi.State != MotorStates.Idle
+                || stages.LinRe.State != MotorStates.Idle
+                || stages.RotLi.State != MotorStates.Idle
+                || stages.RotRe.State != MotorStates.Idle)
                 return;
 
             //Inhalt der Textbox als double A
@@ -621,9 +628,9 @@ namespace StageControl
             }
 
             //Minimum des Augenabstandes
-            if (kNew < 0)
+            if (kNew < -1)
             {
-                kNew = 0;
+                kNew = -1;
                 AugenabstandTextBox.Clear();
                 string kmin = Convert.ToString(2 * (34.5 - kNew));
                 AugenabstandTextBox.AppendText(kmin);
@@ -648,6 +655,7 @@ namespace StageControl
 
         private void StageControl_FormClosing(object sender, FormClosingEventArgs e)
         {
+            waitEvent.Close();
             stages.Disconnect();
         }
     }

@@ -403,11 +403,13 @@
             this.Controls.Add(this.VergenzwinkelTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.VergenzwinkelButton);
+            this.Enabled = false;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StageControl";
             this.RightToLeftLayout = true;
             this.Text = "StageControl";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StageControl_FormClosing);
+            this.Shown += new System.EventHandler(this.StageControl_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

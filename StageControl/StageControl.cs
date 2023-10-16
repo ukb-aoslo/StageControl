@@ -15,27 +15,7 @@ namespace StageControl
         public StageControl()
         {
             InitializeComponent();
-            stages.Init();
-            stages.LinRe.Home(0);
-            stages.LinLi.Home(0);
-
-            //Wait for stages to get some distance
-            Thread.Sleep(20000);
-
-            //Geschwindigkeit einstellen
-            stages.LinLi.SetVelocityParams(40, 40);
-            stages.LinRe.SetVelocityParams(40, 40);
-
-            //No Backlash
-            stages.LinLi.SetBacklash(0);
-            stages.LinRe.SetBacklash(0);
-
-            //Home Vergenzwinkel
-            stages.RotLi.SetVelocityParams(100, 100);
-            stages.RotRe.SetVelocityParams(100, 100);
-            stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(0, 0));
-            stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(0, 0));
-
+            
             //in Textboxen schreiben
             string Zerostring = Convert.ToString(0);
             string sixnine = Convert.ToString(69);
@@ -657,6 +637,39 @@ namespace StageControl
         {
             waitEvent.Close();
             stages.Disconnect();
+        }
+
+        private void UpdateUI()
+        {
+            this.Enabled = true;
+        }
+
+        private void StageControl_Shown(object sender, EventArgs e)
+        {
+            stages.Init();
+            stages.LinRe.Home(0);
+            stages.LinLi.Home(0);
+
+            //Wait for stages to get some distance
+            Thread.Sleep(20000);
+
+            //Geschwindigkeit einstellen
+            stages.LinLi.SetVelocityParams(40, 40);
+            stages.LinRe.SetVelocityParams(40, 40);
+
+            //No Backlash
+            stages.LinLi.SetBacklash(0);
+            stages.LinRe.SetBacklash(0);
+
+            //Home Vergenzwinkel
+            stages.RotLi.SetVelocityParams(100, 100);
+            stages.RotRe.SetVelocityParams(100, 100);
+            stages.RotLi.Home(p => stages.RotLi.MoveTo(90, pp => stages.RotLi.MoveTo(0, 0)));
+            stages.RotRe.Home(p => stages.RotRe.MoveTo(90, pp => stages.RotRe.MoveTo(0, 0)));
+
+            Thread.Sleep(5000);
+
+            UpdateUI();
         }
     }
 }

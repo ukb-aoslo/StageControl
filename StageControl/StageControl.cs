@@ -11,6 +11,8 @@ namespace StageControl
     {
         Stages stages = new Stages();
         ManualResetEvent waitEvent = new ManualResetEvent(false);
+        decimal LinksAngleZero = 0;
+        decimal RechtsAngleZero = 0;
 
         public StageControl()
         {
@@ -126,8 +128,8 @@ namespace StageControl
             }
 
             //Definitionen und Formeln
-            decimal Vdecimal = Convert.ToDecimal(V) / 2;
             string Vstring = Convert.ToString(V);
+            decimal Vdecimal = Convert.ToDecimal(V) / 2;
 
             //Bewegungsbefehle Rotation
             stages.RotLi.SetVelocityParams(100, 1000);
@@ -135,8 +137,26 @@ namespace StageControl
             // stages.RotLi.MoveTo(Vdecimal, 0);
             // stages.RotLi.MoveTo(360 - Vdecimal, 0);
 
-            stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(Vdecimal, 0));
-            stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(360 - Vdecimal, 0));
+            if (Vdecimal + LinksAngleZero < 0)
+            {
+                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(360 + Vdecimal + LinksAngleZero, 0));
+            }
+            else
+            {
+                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(Vdecimal + LinksAngleZero, 0));
+            }
+
+            if (Vdecimal + RechtsAngleZero < 0)
+            {
+                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(360 + Vdecimal + RechtsAngleZero, 0));
+            }
+            else
+            {
+                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(Vdecimal + RechtsAngleZero, 0));
+            }
+
+            //stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(Vdecimal, 0));
+            //stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(360 - Vdecimal, 0));
 
             //Inhalt der Textbox3 Stageposition als double k
             double k = 0;
@@ -670,6 +690,154 @@ namespace StageControl
             Thread.Sleep(5000);
 
             UpdateUI();
+        }
+
+        // Links Angle
+        //-------------------------
+        private void LinksAngleIncreaseButton_Click(object sender, EventArgs e)
+        {
+            SetupLinksAngle(sender);
+        }
+
+        private void LinksAngleDecreaseButton_Click(object sender, EventArgs e)
+        {
+            SetupLinksAngle(sender);
+        }
+
+        private void LinksAngleTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //Bestätigen der Eingabe mit Enter
+            if (e.KeyChar == (char)13)
+            {
+                SetupLinksAngle(sender);
+            }
+        }
+
+        private void SetupLinksAngle(object sender)
+        {
+            if (stages.RotLi.State != MotorStates.Idle)
+                return;
+
+
+            //Inhalt der Textbox als double j
+            double j = 0;
+            if (!double.TryParse(LinksAngleTextBox.Text, out j))
+            {
+                j = -1;
+            }
+
+            //Definitionen und Formeln
+            double V = j;
+
+            if (sender == LinksAngleDecreaseButton)
+                V -= 1;
+            else if (sender == LinksAngleIncreaseButton)
+                V += 1;
+
+            //Maximum des Vergenzwinkels
+            if (V > 45)
+            {
+                V = 45;
+            }
+
+            //Minimum des Vergenzwinkels
+            if (V < -45)
+            {
+                V = -45;
+            }
+
+            //Definitionen und Formeln
+            decimal Vdecimal = Convert.ToDecimal(V);
+            string Vstring = Convert.ToString(V);
+
+            //Bewegungsbefehle Rotation
+            stages.RotLi.SetVelocityParams(100, 1000);
+
+            if (Vdecimal < 0)
+            {
+                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(360 + Vdecimal, 0));
+            }
+            else
+            {
+                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(Vdecimal, 0));
+            }
+
+            LinksAngleZero = Vdecimal;
+            LinksAngleTextBox.Text = Vstring;
+        }
+
+        // Rechts Angle
+        //-------------------------
+        private void RechtsAngleIncreaseButton_Click(object sender, EventArgs e)
+        {
+            SetupRechtsAngle(sender);
+        }
+
+        private void RechtsAngleDecreaseButton_Click(object sender, EventArgs e)
+        {
+            SetupRechtsAngle(sender);
+        }
+
+        private void RechtsAngleTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //Bestätigen der Eingabe mit Enter
+            if (e.KeyChar == (char)13)
+            {
+                SetupRechtsAngle(sender);
+            }
+        }
+
+        private void SetupRechtsAngle(object sender)
+        {
+            if (stages.RotRe.State != MotorStates.Idle)
+                return;
+
+
+            //Inhalt der Textbox als double j
+            double j = 0;
+            if (!double.TryParse(RechtsAngleTextBox.Text, out j))
+            {
+                j = -1;
+            }
+
+            //Definitionen und Formeln
+            double V = j;
+
+            if (sender == RechtsAngleDecreaseButton)
+                V -= 1;
+            else if (sender == RechtsAngleIncreaseButton)
+                V += 1;
+
+            //Maximum des Vergenzwinkels
+            if (V > 45)
+            {
+                V = 45;
+            }
+
+            //Minimum des Vergenzwinkels
+            if (V < -45)
+            {
+                V = -45;
+            }
+
+            //Definitionen und Formeln
+            decimal Vdecimal = Convert.ToDecimal(V);
+            string Vstring = Convert.ToString(V);
+
+            //Bewegungsbefehle Rotation
+            stages.RotRe.SetVelocityParams(100, 1000);
+
+            if (Vdecimal < 0)
+            {
+                stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(-Vdecimal, 0));
+            }
+            else
+            {
+                stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(360 - Vdecimal, 0));
+            }
+
+            RechtsAngleZero = Vdecimal;
+            RechtsAngleTextBox.Text = Vstring;
         }
     }
 }

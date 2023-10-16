@@ -61,6 +61,14 @@
             this.AugenabstandLimitLabel = new System.Windows.Forms.Label();
             this.AugenabstandUpButton = new System.Windows.Forms.Button();
             this.AugenabstandDownButton = new System.Windows.Forms.Button();
+            this.LinksAngleDecreaseButton = new System.Windows.Forms.Button();
+            this.LinksAngleIncreaseButton = new System.Windows.Forms.Button();
+            this.LinksAngleTextBox = new System.Windows.Forms.TextBox();
+            this.RechtsAngleDecreaseButton = new System.Windows.Forms.Button();
+            this.RechtsAngleIncreaseButton = new System.Windows.Forms.Button();
+            this.RechtsAngleTextBox = new System.Windows.Forms.TextBox();
+            this.LinksLabel = new System.Windows.Forms.Label();
+            this.RechtsLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // VergenzwinkelButton
@@ -368,11 +376,97 @@
             this.AugenabstandDownButton.UseVisualStyleBackColor = true;
             this.AugenabstandDownButton.Click += new System.EventHandler(this.AugenabstandDownButton_Click);
             // 
+            // LinksAngleDecreaseButton
+            // 
+            this.LinksAngleDecreaseButton.Location = new System.Drawing.Point(91, 472);
+            this.LinksAngleDecreaseButton.Name = "LinksAngleDecreaseButton";
+            this.LinksAngleDecreaseButton.Size = new System.Drawing.Size(75, 23);
+            this.LinksAngleDecreaseButton.TabIndex = 43;
+            this.LinksAngleDecreaseButton.Text = "▼";
+            this.LinksAngleDecreaseButton.UseVisualStyleBackColor = true;
+            this.LinksAngleDecreaseButton.Click += new System.EventHandler(this.LinksAngleDecreaseButton_Click);
+            // 
+            // LinksAngleIncreaseButton
+            // 
+            this.LinksAngleIncreaseButton.Location = new System.Drawing.Point(91, 417);
+            this.LinksAngleIncreaseButton.Name = "LinksAngleIncreaseButton";
+            this.LinksAngleIncreaseButton.Size = new System.Drawing.Size(75, 23);
+            this.LinksAngleIncreaseButton.TabIndex = 42;
+            this.LinksAngleIncreaseButton.Text = "▲";
+            this.LinksAngleIncreaseButton.UseVisualStyleBackColor = true;
+            this.LinksAngleIncreaseButton.Click += new System.EventHandler(this.LinksAngleIncreaseButton_Click);
+            // 
+            // LinksAngleTextBox
+            // 
+            this.LinksAngleTextBox.AcceptsReturn = true;
+            this.LinksAngleTextBox.Location = new System.Drawing.Point(91, 446);
+            this.LinksAngleTextBox.Name = "LinksAngleTextBox";
+            this.LinksAngleTextBox.Size = new System.Drawing.Size(75, 20);
+            this.LinksAngleTextBox.TabIndex = 41;
+            this.LinksAngleTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.LinksAngleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.LinksAngleTextBox_KeyPress);
+            // 
+            // RechtsAngleDecreaseButton
+            // 
+            this.RechtsAngleDecreaseButton.Location = new System.Drawing.Point(256, 472);
+            this.RechtsAngleDecreaseButton.Name = "RechtsAngleDecreaseButton";
+            this.RechtsAngleDecreaseButton.Size = new System.Drawing.Size(75, 23);
+            this.RechtsAngleDecreaseButton.TabIndex = 46;
+            this.RechtsAngleDecreaseButton.Text = "▼";
+            this.RechtsAngleDecreaseButton.UseVisualStyleBackColor = true;
+            this.RechtsAngleDecreaseButton.Click += new System.EventHandler(this.RechtsAngleDecreaseButton_Click);
+            // 
+            // RechtsAngleIncreaseButton
+            // 
+            this.RechtsAngleIncreaseButton.Location = new System.Drawing.Point(256, 417);
+            this.RechtsAngleIncreaseButton.Name = "RechtsAngleIncreaseButton";
+            this.RechtsAngleIncreaseButton.Size = new System.Drawing.Size(75, 23);
+            this.RechtsAngleIncreaseButton.TabIndex = 45;
+            this.RechtsAngleIncreaseButton.Text = "▲";
+            this.RechtsAngleIncreaseButton.UseVisualStyleBackColor = true;
+            this.RechtsAngleIncreaseButton.Click += new System.EventHandler(this.RechtsAngleIncreaseButton_Click);
+            // 
+            // RechtsAngleTextBox
+            // 
+            this.RechtsAngleTextBox.AcceptsReturn = true;
+            this.RechtsAngleTextBox.Location = new System.Drawing.Point(256, 446);
+            this.RechtsAngleTextBox.Name = "RechtsAngleTextBox";
+            this.RechtsAngleTextBox.Size = new System.Drawing.Size(75, 20);
+            this.RechtsAngleTextBox.TabIndex = 44;
+            this.RechtsAngleTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.RechtsAngleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RechtsAngleTextBox_KeyPress);
+            // 
+            // LinksLabel
+            // 
+            this.LinksLabel.AutoSize = true;
+            this.LinksLabel.Location = new System.Drawing.Point(53, 449);
+            this.LinksLabel.Name = "LinksLabel";
+            this.LinksLabel.Size = new System.Drawing.Size(32, 13);
+            this.LinksLabel.TabIndex = 47;
+            this.LinksLabel.Text = "Links";
+            // 
+            // RechtsLabel
+            // 
+            this.RechtsLabel.AutoSize = true;
+            this.RechtsLabel.Location = new System.Drawing.Point(209, 449);
+            this.RechtsLabel.Name = "RechtsLabel";
+            this.RechtsLabel.Size = new System.Drawing.Size(41, 13);
+            this.RechtsLabel.TabIndex = 48;
+            this.RechtsLabel.Text = "Rechts";
+            // 
             // StageControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 402);
+            this.ClientSize = new System.Drawing.Size(409, 536);
+            this.Controls.Add(this.RechtsLabel);
+            this.Controls.Add(this.LinksLabel);
+            this.Controls.Add(this.RechtsAngleDecreaseButton);
+            this.Controls.Add(this.RechtsAngleIncreaseButton);
+            this.Controls.Add(this.RechtsAngleTextBox);
+            this.Controls.Add(this.LinksAngleDecreaseButton);
+            this.Controls.Add(this.LinksAngleIncreaseButton);
+            this.Controls.Add(this.LinksAngleTextBox);
             this.Controls.Add(this.AugenabstandDownButton);
             this.Controls.Add(this.AugenabstandUpButton);
             this.Controls.Add(this.AugenabstandLimitLabel);
@@ -448,6 +542,14 @@
         private System.Windows.Forms.Label AugenabstandLimitLabel;
         private System.Windows.Forms.Button AugenabstandUpButton;
         private System.Windows.Forms.Button AugenabstandDownButton;
+        private System.Windows.Forms.Button LinksAngleDecreaseButton;
+        private System.Windows.Forms.Button LinksAngleIncreaseButton;
+        private System.Windows.Forms.TextBox LinksAngleTextBox;
+        private System.Windows.Forms.Button RechtsAngleDecreaseButton;
+        private System.Windows.Forms.Button RechtsAngleIncreaseButton;
+        private System.Windows.Forms.TextBox RechtsAngleTextBox;
+        private System.Windows.Forms.Label LinksLabel;
+        private System.Windows.Forms.Label RechtsLabel;
     }
 }
 

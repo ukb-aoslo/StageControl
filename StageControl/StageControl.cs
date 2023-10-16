@@ -33,6 +33,10 @@ namespace StageControl
             AugenabstandTextBox.AppendText(sixnine);
             PosKorrekturTextBox.Clear();
             PosKorrekturTextBox.AppendText(Zerostring);
+            LinksAngleTextBox.Clear();
+            LinksAngleTextBox.AppendText(Zerostring);
+            RechtsAngleTextBox.Clear();
+            RechtsAngleTextBox.AppendText(Zerostring);
         }
 
         //Section1 Vergenzwinkel ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -51,8 +55,8 @@ namespace StageControl
 
             //Home Vergenzwinkel
             // croatch so the mirrors will not fluctuate
-            stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(0, 0));
-            stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(0, 0));
+            stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(LinksAngleZero, 0));
+            stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(RechtsAngleZero, 0));
 
             //in Textboxen schreiben
             string Zerostring = Convert.ToString(0);

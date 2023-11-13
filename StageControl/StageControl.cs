@@ -37,6 +37,9 @@ namespace StageControl
             LinksAngleTextBox.AppendText(Zerostring);
             RechtsAngleTextBox.Clear();
             RechtsAngleTextBox.AppendText(Zerostring);
+
+            distanzTextBox.Clear();
+            distanzTextBox.AppendText(Zerostring);
         }
 
         //Section1 Vergenzwinkel ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -55,8 +58,25 @@ namespace StageControl
 
             //Home Vergenzwinkel
             // croatch so the mirrors will not fluctuate
-            stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(LinksAngleZero, 0));
-            stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(RechtsAngleZero, 0));
+            if (LinksAngleZero < 0)
+            {
+                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(360 + LinksAngleZero, 0));
+            }
+            else
+            {
+                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(LinksAngleZero, 0));
+            }
+            //stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(LinksAngleZero, 0));
+
+            if (RechtsAngleZero < 0)
+            {
+                stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(-RechtsAngleZero, 0));
+            }
+            else
+            {
+                stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(360 - RechtsAngleZero, 0));
+            }
+            //stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(RechtsAngleZero, 0));
 
             //in Textboxen schreiben
             string Zerostring = Convert.ToString(0);
@@ -150,13 +170,14 @@ namespace StageControl
                 stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(Vdecimal + LinksAngleZero, 0));
             }
 
-            if (Vdecimal + RechtsAngleZero < 0)
+            decimal VrectAngle = -Vdecimal + RechtsAngleZero;
+            if (-Vdecimal + RechtsAngleZero < 0)
             {
-                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(360 + Vdecimal + RechtsAngleZero, 0));
+                stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(360 + VrectAngle, 0));
             }
             else
             {
-                stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(Vdecimal + RechtsAngleZero, 0));
+                stages.RotRe.MoveTo(90, p => stages.RotRe.MoveTo(VrectAngle, 0));
             }
 
             //stages.RotLi.MoveTo(90, p => stages.RotLi.MoveTo(Vdecimal, 0));
@@ -842,6 +863,106 @@ namespace StageControl
 
             RechtsAngleZero = Vdecimal;
             RechtsAngleTextBox.Text = Vstring;
+        }
+
+
+        // ----------------- Distanz  section ---------------------
+        private void distanzUpButton_Click(object sender, EventArgs e)
+        {
+            double distanz = 0;
+            if (!double.TryParse(distanzTextBox.Text, out distanz))
+            {
+                distanz = 0;
+            }
+            else
+            {
+                if (distanz < 6)
+                    distanz += 1;
+            }
+            distanzTextBox.Text = distanz.ToString();
+
+            SetupAngleByDistance(sender);
+        }
+
+        private void distanzDownButton_Click(object sender, EventArgs e)
+        {
+            double distanz = 0;
+            if (!double.TryParse(distanzTextBox.Text, out distanz))
+            {
+                distanz = 0;
+            }
+            else
+            {
+                if (distanz > 0)
+                    distanz -= 1;
+            }
+            distanzTextBox.Text = distanz.ToString();
+
+            SetupAngleByDistance(sender);
+        }
+
+        private void distanzTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            double distanz = 0;
+            if (!double.TryParse(distanzTextBox.Text, out distanz))
+            {
+                distanz = 0;
+            }
+            else
+            {
+                if (distanz < 0)
+                    distanz -= 0;
+                else if (distanz > 6)
+                    distanz = 6;
+            }
+            distanzTextBox.Text = distanz.ToString();
+
+            //Bestätigen der Eingabe mit Enter
+            if (e.KeyChar == (char)13)
+            {
+                SetupAngleByDistance(sender);
+            }
+        }
+
+        private void SetupAngleByDistance(object sender)
+        {
+            double augenabstand = 0;
+            if (!double.TryParse(AugenabstandTextBox.Text, out augenabstand))
+            {
+                MessageBox.Show("Wrong Augenabstand", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            double distanz = 0;
+            if (!double.TryParse(distanzTextBox.Text, out distanz))
+            {
+                MessageBox.Show("Wrong Distanz", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            double angle = ConvertViewDistToAngleDeg(augenabstand, distanz);
+
+            VergenzwinkelTextBox.Text = Math.Round(angle, 4).ToString();
+
+            VergenzwinkelSetup(sender);
+        }
+
+        /// <summary>
+        /// Converts viewing distance into viewing angle.
+        /// </summary>
+        /// <param name="augenabstand">Distance between eyes in mm.</param>
+        /// <param name="distanz">Viewing distance in m.</param>
+        /// <return>Viewing angle in degrees.</return>
+        private double ConvertViewDistToAngleDeg(double augenabstand, double distanz)
+        {
+            if (distanz == 0)
+                return 0;
+
+            distanz = distanz * 1000;
+            double angle = Math.Atan(-augenabstand / distanz) * (180 / Math.PI);
+            if (angle < 0)
+                return -angle;
+            return angle;
         }
     }
 }

@@ -69,6 +69,11 @@
             this.RechtsAngleTextBox = new System.Windows.Forms.TextBox();
             this.LinksLabel = new System.Windows.Forms.Label();
             this.RechtsLabel = new System.Windows.Forms.Label();
+            this.distanzDownButton = new System.Windows.Forms.Button();
+            this.distanzUpButton = new System.Windows.Forms.Button();
+            this.distanzLabel2 = new System.Windows.Forms.Label();
+            this.distanzLabel = new System.Windows.Forms.Label();
+            this.distanzTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // VergenzwinkelButton
@@ -331,7 +336,7 @@
             // AugenabstandTextBox
             // 
             this.AugenabstandTextBox.AcceptsReturn = true;
-            this.AugenabstandTextBox.Location = new System.Drawing.Point(172, 39);
+            this.AugenabstandTextBox.Location = new System.Drawing.Point(317, 39);
             this.AugenabstandTextBox.Name = "AugenabstandTextBox";
             this.AugenabstandTextBox.Size = new System.Drawing.Size(75, 20);
             this.AugenabstandTextBox.TabIndex = 36;
@@ -341,7 +346,7 @@
             // AugenabstandLabel
             // 
             this.AugenabstandLabel.AutoSize = true;
-            this.AugenabstandLabel.Location = new System.Drawing.Point(90, 42);
+            this.AugenabstandLabel.Location = new System.Drawing.Point(235, 20);
             this.AugenabstandLabel.Name = "AugenabstandLabel";
             this.AugenabstandLabel.Size = new System.Drawing.Size(76, 13);
             this.AugenabstandLabel.TabIndex = 37;
@@ -350,7 +355,7 @@
             // AugenabstandLimitLabel
             // 
             this.AugenabstandLimitLabel.AutoSize = true;
-            this.AugenabstandLimitLabel.Location = new System.Drawing.Point(253, 42);
+            this.AugenabstandLimitLabel.Location = new System.Drawing.Point(250, 42);
             this.AugenabstandLimitLabel.Name = "AugenabstandLimitLabel";
             this.AugenabstandLimitLabel.Size = new System.Drawing.Size(59, 13);
             this.AugenabstandLimitLabel.TabIndex = 38;
@@ -358,7 +363,7 @@
             // 
             // AugenabstandUpButton
             // 
-            this.AugenabstandUpButton.Location = new System.Drawing.Point(172, 10);
+            this.AugenabstandUpButton.Location = new System.Drawing.Point(317, 10);
             this.AugenabstandUpButton.Name = "AugenabstandUpButton";
             this.AugenabstandUpButton.Size = new System.Drawing.Size(75, 23);
             this.AugenabstandUpButton.TabIndex = 39;
@@ -368,7 +373,7 @@
             // 
             // AugenabstandDownButton
             // 
-            this.AugenabstandDownButton.Location = new System.Drawing.Point(172, 65);
+            this.AugenabstandDownButton.Location = new System.Drawing.Point(317, 65);
             this.AugenabstandDownButton.Name = "AugenabstandDownButton";
             this.AugenabstandDownButton.Size = new System.Drawing.Size(75, 23);
             this.AugenabstandDownButton.TabIndex = 40;
@@ -454,11 +459,64 @@
             this.RechtsLabel.TabIndex = 48;
             this.RechtsLabel.Text = "Rechts";
             // 
+            // distanzDownButton
+            // 
+            this.distanzDownButton.Location = new System.Drawing.Point(88, 65);
+            this.distanzDownButton.Name = "distanzDownButton";
+            this.distanzDownButton.Size = new System.Drawing.Size(75, 23);
+            this.distanzDownButton.TabIndex = 53;
+            this.distanzDownButton.Text = "▼";
+            this.distanzDownButton.UseVisualStyleBackColor = true;
+            this.distanzDownButton.Click += new System.EventHandler(this.distanzDownButton_Click);
+            // 
+            // distanzUpButton
+            // 
+            this.distanzUpButton.Location = new System.Drawing.Point(88, 10);
+            this.distanzUpButton.Name = "distanzUpButton";
+            this.distanzUpButton.Size = new System.Drawing.Size(75, 23);
+            this.distanzUpButton.TabIndex = 52;
+            this.distanzUpButton.Text = "▲";
+            this.distanzUpButton.UseVisualStyleBackColor = true;
+            this.distanzUpButton.Click += new System.EventHandler(this.distanzUpButton_Click);
+            // 
+            // distanzLabel2
+            // 
+            this.distanzLabel2.AutoSize = true;
+            this.distanzLabel2.Location = new System.Drawing.Point(29, 42);
+            this.distanzLabel2.Name = "distanzLabel2";
+            this.distanzLabel2.Size = new System.Drawing.Size(48, 13);
+            this.distanzLabel2.TabIndex = 51;
+            this.distanzLabel2.Text = "0.5 - 6 m";
+            // 
+            // distanzLabel
+            // 
+            this.distanzLabel.AutoSize = true;
+            this.distanzLabel.Location = new System.Drawing.Point(40, 20);
+            this.distanzLabel.Name = "distanzLabel";
+            this.distanzLabel.Size = new System.Drawing.Size(42, 13);
+            this.distanzLabel.TabIndex = 50;
+            this.distanzLabel.Text = "Distanz";
+            // 
+            // distanzTextBox
+            // 
+            this.distanzTextBox.AcceptsReturn = true;
+            this.distanzTextBox.Location = new System.Drawing.Point(88, 39);
+            this.distanzTextBox.Name = "distanzTextBox";
+            this.distanzTextBox.Size = new System.Drawing.Size(75, 20);
+            this.distanzTextBox.TabIndex = 49;
+            this.distanzTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.distanzTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.distanzTextBox_KeyPress);
+            // 
             // StageControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(409, 536);
+            this.Controls.Add(this.distanzDownButton);
+            this.Controls.Add(this.distanzUpButton);
+            this.Controls.Add(this.distanzLabel2);
+            this.Controls.Add(this.distanzLabel);
+            this.Controls.Add(this.distanzTextBox);
             this.Controls.Add(this.RechtsLabel);
             this.Controls.Add(this.LinksLabel);
             this.Controls.Add(this.RechtsAngleDecreaseButton);
@@ -550,6 +608,11 @@
         private System.Windows.Forms.TextBox RechtsAngleTextBox;
         private System.Windows.Forms.Label LinksLabel;
         private System.Windows.Forms.Label RechtsLabel;
+        private System.Windows.Forms.Button distanzDownButton;
+        private System.Windows.Forms.Button distanzUpButton;
+        private System.Windows.Forms.Label distanzLabel2;
+        private System.Windows.Forms.Label distanzLabel;
+        private System.Windows.Forms.TextBox distanzTextBox;
     }
 }
 
